@@ -6,7 +6,7 @@ import hu.uni.miskolc.iit.swtest.exceptions.DuplicatedBookEntryException;
 import hu.uni.miskolc.iit.swtest.exceptions.EntryNotFoundException;
 import hu.uni.miskolc.iit.swtest.model.Book;
 
-public interface BookDao {
+public interface BookDAO {
 	void createBook(Book book) throws DuplicatedBookEntryException;
 	Collection<Book> readBooks();
 	void updeateBook(int bookId, Book updatedBook) throws EntryNotFoundException;
