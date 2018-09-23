@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Date;
+import java.util.NoSuchElementException;
 import java.util.StringTokenizer;
 
 import hu.uni.miskolc.iit.swtest.exceptions.DuplicatedBookEntryException;
@@ -34,7 +35,7 @@ public class DaoFile implements BookDAO{
 			if(b.equals(book)) {
 				throw new DuplicatedBookEntryException(book + " is exists!");
 			}
-		}	
+		}
 		BufferedWriter bf = null;
 		try{
 			bf = new BufferedWriter(new FileWriter(database));
@@ -57,7 +58,7 @@ public class DaoFile implements BookDAO{
 	}
 
 	public Collection<Book> readBooks() {
-		Collection<Book> bookList = null;
+		Collection<Book> bookList = new ArrayList<Book>();
 		BufferedReader bf = null;
 		try{
 			bf = new BufferedReader(new FileReader(database));
@@ -148,6 +149,8 @@ public class DaoFile implements BookDAO{
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		}catch(NoSuchElementException e){
+			nextID = 0;
 		}finally {
 			try {
 				bf.close();
