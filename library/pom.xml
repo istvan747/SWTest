@@ -26,5 +26,6 @@
   	<module>core</module>
   	<module>dao-file</module>
   	<module>service</module>
+  	<module>controller</module>
   </modules>
 </project>
