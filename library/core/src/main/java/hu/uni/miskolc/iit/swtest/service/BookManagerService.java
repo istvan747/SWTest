@@ -10,6 +10,9 @@ public interface BookManagerService {
 	void recordBook(Book book) throws BookAlreadyExistsException;
 	void updateBook(int bookId, Book updatedBook) throws BookDoesNotExistsException;
 	
+	void setBookRented(Book book) throws BookDoesNotExistsException;
+	void setBookUnRented(Book book) throws BookDoesNotExistsException;
+	
 	Collection<Book> listBooks();
 	Collection<Book> listRentedBooks();
 }
