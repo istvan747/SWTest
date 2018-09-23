@@ -11,11 +11,14 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Date;
+import java.util.NoSuchElementException;
 import java.util.StringTokenizer;
 
 import hu.uni.miskolc.iit.swtest.exceptions.DuplicatedBookEntryException;
 import hu.uni.miskolc.iit.swtest.exceptions.EntryNotFoundException;
 import hu.uni.miskolc.iit.swtest.model.Book;
+import hu.uni.miskolc.iit.swtest.model.Genre;
 
 public class DaoFile implements BookDAO{
 	
@@ -49,7 +52,12 @@ public class DaoFile implements BookDAO{
 	public Collection<Book> readBooks() {
 		Collection<Book> bookList = null;
 		try(BufferedReader bf = new BufferedReader(new FileReader(database))) {
-			
+			String record;
+			while( (record = bf.readLine()) != null ) {
+				Book book = recordToBook(record);
+				if(book != null)
+					bookList.add(book);
+			}
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -77,14 +85,27 @@ public class DaoFile implements BookDAO{
 	
 	private String marshalToRecord(Book book) {
 		return book.getTitle() + FIELD_SEPARATOR + book.getAuthor() + FIELD_SEPARATOR +
-				book.getGenre() + FIELD_SEPARATOR + (new SimpleDateFormat("yyyy.MM.dd.")).format(book.getReleased());
+				book.getGenre() + FIELD_SEPARATOR + book.getReleased().getTime();
 	}
 	
 	private Book recordToBook(String record) {
 		Book book = new Book();
 		StringTokenizer strt = new StringTokenizer(record, FIELD_SEPARATOR);
-		
-		book.setTitle(strt.nextElement() + "");
+		try {
+			book.setId(Integer.parseInt(strt.nextElement() + ""));
+			book.setTitle(strt.nextElement() + "");
+			book.setAuthor(strt.nextElement() + "");
+			String genre = (strt.nextElement() + "").toUpperCase();
+			switch(genre) {
+			case "SCIFI": book.setGenre(Genre.SCIFI); break;
+			case "FANTASY": book.setGenre(Genre.FANTASY); break;
+			case "ADVENTURE": book.setGenre(Genre.ADVENTURE); break;
+			case "HOBBY": book.setGenre(Genre.HOBBY); break;
+			}
+			book.setReleased(new Date( Long.valueOf(strt.nextElement() + "") ) );			
+		}catch(Exception e) {
+			book = null;
+		}
 		return book;
 	}
 	
