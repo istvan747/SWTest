@@ -1,11 +1,13 @@
 package hu.uni.miskolc.iit.swtest.service;
 
+import java.util.ArrayList;
 import java.util.Collection;
 
 import hu.uni.miskolc.iit.swtest.dao.BookDAO;
 import hu.uni.miskolc.iit.swtest.exceptions.BookAlreadyExistsException;
 import hu.uni.miskolc.iit.swtest.exceptions.BookDoesNotExistsException;
 import hu.uni.miskolc.iit.swtest.exceptions.DuplicatedBookEntryException;
+import hu.uni.miskolc.iit.swtest.exceptions.EntryNotFoundException;
 import hu.uni.miskolc.iit.swtest.model.Book;
 
 public class BookManagerServiceImpl implements BookManagerService{
@@ -26,27 +28,42 @@ public class BookManagerServiceImpl implements BookManagerService{
 	}
 
 	public void updateBook(int bookId, Book updatedBook) throws BookDoesNotExistsException {
-				
+		try {
+			bookDAO.updeateBook(bookId, updatedBook);
+		} catch (EntryNotFoundException e) {
+			throw new BookDoesNotExistsException(e);
+		}	
 	}
 
 	public void setBookRented(Book book) throws BookDoesNotExistsException {
-		// TODO Auto-generated method stub
-		
+		try {
+			bookDAO.setBookRented(book, true);
+		} catch (EntryNotFoundException e) {
+			throw new BookDoesNotExistsException(e);
+		}
 	}
 
 	public void setBookUnRented(Book book) throws BookDoesNotExistsException {
-		// TODO Auto-generated method stub
-		
+		try {
+			bookDAO.setBookRented(book, false);
+		} catch (EntryNotFoundException e) {
+			throw new BookDoesNotExistsException(e);
+		}	
 	}
 
 	public Collection<Book> listBooks() {
-		// TODO Auto-generated method stub
-		return null;
+		return bookDAO.readBooks();
 	}
 
 	public Collection<Book> listRentedBooks() {
-		// TODO Auto-generated method stub
-		return null;
+		Collection<Book> rentedBookList = new ArrayList<Book>();
+		Collection<Book> bookList = bookDAO.readBooks();
+		
+		for(Book book: bookList)
+			if(book.isRented())
+				rentedBookList.add(book);
+		
+		return rentedBookList;
 	}
 
 }
