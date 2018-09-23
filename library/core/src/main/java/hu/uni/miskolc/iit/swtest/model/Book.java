@@ -10,8 +10,7 @@ public class Book {
 	private Date released;
 	private boolean rented;
 	
-	public Book(int id, String title, String author, Genre genre, Date released, boolean rented) {
-		this.id = id;
+	public Book(String title, String author, Genre genre, Date released, boolean rented) {
 		this.title = title;
 		this.author = author;
 		this.genre = genre;
