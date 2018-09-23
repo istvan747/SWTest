@@ -17,6 +17,10 @@ public class Book {
 		this.released = released;
 		this.rented = rented;
 	}
+	
+	public Book() {
+		
+	}
 
 	public int getId() {
 		return id;
@@ -64,6 +68,13 @@ public class Book {
 
 	public void setRented(boolean rented) {
 		this.rented = rented;
+	}
+	
+	
+
+	@Override
+	public String toString() {
+		return "Book [title=" + title + ", author=" + author + ", genre=" + genre + ", released=" + released + "]";
 	}
 
 	@Override
