@@ -24,5 +24,6 @@
   </dependencies>
   <modules>
   	<module>core</module>
+  	<module>dao-file</module>
   </modules>
 </project>
