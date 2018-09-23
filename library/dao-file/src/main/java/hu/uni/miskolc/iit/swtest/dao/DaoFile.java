@@ -7,12 +7,10 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Date;
-import java.util.NoSuchElementException;
 import java.util.StringTokenizer;
 
 import hu.uni.miskolc.iit.swtest.exceptions.DuplicatedBookEntryException;
@@ -36,8 +34,10 @@ public class DaoFile implements BookDAO{
 			if(b.equals(book)) {
 				throw new DuplicatedBookEntryException(book + " is exists!");
 			}
-		}		
-		try(BufferedWriter bf = new BufferedWriter(new FileWriter(database))  ) {
+		}	
+		BufferedWriter bf = null;
+		try{
+			bf = new BufferedWriter(new FileWriter(database));
 			String record = getNextID() + FIELD_SEPARATOR + marshalToRecord(book);
 			bf.write(record);
 			bf.newLine();
@@ -45,13 +45,22 @@ public class DaoFile implements BookDAO{
 			e.printStackTrace();
 		} catch (IOException e1) {
 			e1.printStackTrace();
+		}finally {
+			try {
+				bf.close();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 		
 	}
 
 	public Collection<Book> readBooks() {
 		Collection<Book> bookList = null;
-		try(BufferedReader bf = new BufferedReader(new FileReader(database))) {
+		BufferedReader bf = null;
+		try{
+			bf = new BufferedReader(new FileReader(database));
 			String record;
 			while( (record = bf.readLine()) != null ) {
 				Book book = recordToBook(record);
@@ -64,6 +73,13 @@ public class DaoFile implements BookDAO{
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		} finally{
+			try {
+				bf.close();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 		return bookList;
 	}
@@ -111,7 +127,9 @@ public class DaoFile implements BookDAO{
 	
 	private int getNextID() {
 		int nextID = 0;
-		try(BufferedReader bf = new BufferedReader(new FileReader(database))){
+		BufferedReader bf = null;
+		try{
+			bf = new BufferedReader(new FileReader(database));
 			ArrayList<Integer> ids = new ArrayList();
 			String line;
 			while((line = bf.readLine()) != null) {
@@ -130,6 +148,13 @@ public class DaoFile implements BookDAO{
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		}finally {
+			try {
+				bf.close();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 		return nextID;
 	}
