@@ -11,5 +11,5 @@ public interface BookDAO {
 	Collection<Book> readBooks();
 	void updeateBook(int bookId, Book updatedBook) throws EntryNotFoundException;
 	void deleteBook(Book book) throws EntryNotFoundException;
-	void setBookRented(Book book) throws EntryNotFoundException;
+	void setBookRented(Book book, boolean rented) throws EntryNotFoundException;
 }
