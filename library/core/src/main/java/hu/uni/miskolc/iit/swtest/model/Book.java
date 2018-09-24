@@ -18,6 +18,15 @@ public class Book {
 		this.rented = rented;
 	}
 	
+	public Book(Book book) {
+		this.id = book.id;
+		this.title = book.title;
+		this.author = book.author;
+		this.genre = book.genre;
+		this.released = new Date(book.released.getTime());
+		this.rented = book.rented;
+	}
+	
 	public Book() {
 		
 	}
