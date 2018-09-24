@@ -1,7 +1,9 @@
 package hu.uni.miskolc.iit.swtest;
 
 import java.io.File;
+import java.util.Collection;
 import java.util.Date;
+import java.util.Iterator;
 
 import org.junit.Before;
 import org.junit.BeforeClass;
@@ -28,6 +30,7 @@ public class DaoFIleTest {
 		daoFile = new DaoFile(DEFAULT_DB_STATE.getPath()); 
 	}
 	
+	
 	@Test
 	public void testCreateBook() {
 		Book book1 = new Book("A Gyűrűk ura", "Tolkien", Genre.FANTASY, new Date(), false);
@@ -38,5 +41,14 @@ public class DaoFIleTest {
 		} catch (DuplicatedBookEntryException e) {
 			e.printStackTrace();
 		}
+	}
+	
+	
+	@Test
+	public void testReadBooks() {
+		Collection<Book> bookList= daoFile.readBooks();
+		Iterator<Book> bookIterator = bookList.iterator();
+		while(bookIterator.hasNext())
+			System.out.println(bookIterator.next());
 	}
 }
