@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.NoSuchElementException;
 import java.util.StringTokenizer;
 
@@ -30,12 +31,11 @@ public class DaoFile implements BookDAO{
 	}
 	
 	public void createBook(Book book) throws DuplicatedBookEntryException {
-		Collection<Book> bookList = readBooks();
-		for(Book b: bookList) {
-			if(b.equals(book)) {
-				throw new DuplicatedBookEntryException(book + " is exists!");
-			}
+		ArrayList<Book> bookList = readBooks();
+		if(bookList.contains(book)) {
+			throw new DuplicatedBookEntryException(book + " is exists!");
 		}
+		
 		BufferedWriter bf = null;
 		try{
 			bf = new BufferedWriter(new FileWriter(database, true));
@@ -57,8 +57,8 @@ public class DaoFile implements BookDAO{
 		
 	}
 
-	public Collection<Book> readBooks() {
-		Collection<Book> bookList = new ArrayList<Book>();
+	public ArrayList<Book> readBooks() {
+		ArrayList<Book> bookList = new ArrayList<Book>();
 		BufferedReader bf = null;
 		try{
 			bf = new BufferedReader(new FileReader(database));
@@ -85,9 +85,14 @@ public class DaoFile implements BookDAO{
 		return bookList;
 	}
 
-	public void updeateBook(Book book, Book updatedBook) throws EntryNotFoundException {
-		// TODO Auto-generated method stub
-		
+	public void updeateBook(Book bookToBeUpdated, Book updatedBook) throws EntryNotFoundException {
+		ArrayList<Book> bookList = readBooks();
+		int bookIndex = bookList.indexOf(bookToBeUpdated);
+		if(bookIndex == -1)
+			throw new EntryNotFoundException("The requested book does not exists.");
+		updatedBook.setId(bookToBeUpdated.getId());
+		bookList.set(bookIndex, updatedBook);
+		overrideDatabase(bookList);		
 	}
 
 	public void deleteBook(Book book) throws EntryNotFoundException {
@@ -161,5 +166,22 @@ public class DaoFile implements BookDAO{
 		}
 		return nextID;
 	}
+	
+	private void overrideDatabase(Collection<Book> bookList) {
+		BufferedWriter bfw;
+		try {
+			bfw = new BufferedWriter(new FileWriter(database, false));
+			Iterator<Book> bookIt = bookList.iterator();
+			while(bookIt.hasNext()) {
+				Book book =bookIt.next();
+				bfw.write( book.getId() + FIELD_SEPARATOR + marshalToRecord(book) );
+				bfw.newLine();
+			}
+		}catch(FileNotFoundException e) {
+			e.printStackTrace();
+		}catch(IOException e) {
+			e.printStackTrace();
+		}
+	}	
 
 }
