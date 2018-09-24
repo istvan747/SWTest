@@ -27,9 +27,9 @@ public class BookManagerServiceImpl implements BookManagerService{
 		}		
 	}
 
-	public void updateBook(Book book, Book updatedBook) throws BookDoesNotExistsException {
+	public void updateBook(Book bookToBeUpdated, Book updatedBook) throws BookDoesNotExistsException {
 		try {
-			bookDAO.updeateBook(book, updatedBook);
+			bookDAO.updeateBook(bookToBeUpdated, updatedBook);
 		} catch (EntryNotFoundException e) {
 			throw new BookDoesNotExistsException(e);
 		}	
