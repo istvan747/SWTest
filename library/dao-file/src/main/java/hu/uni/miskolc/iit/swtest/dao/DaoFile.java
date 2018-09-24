@@ -89,20 +89,21 @@ public class DaoFile implements BookDAO{
 		ArrayList<Book> bookList = readBooks();
 		int bookIndex = bookList.indexOf(bookToBeUpdated);
 		if(bookIndex == -1)
-			throw new EntryNotFoundException("The requested book does not exists.");
+			throw new EntryNotFoundException("The requested book does not exists: " + bookToBeUpdated);
 		updatedBook.setId(bookToBeUpdated.getId());
 		bookList.set(bookIndex, updatedBook);
 		overrideDatabase(bookList);		
 	}
 
 	public void deleteBook(Book book) throws EntryNotFoundException {
-		// TODO Auto-generated method stub
+		ArrayList<Book> bookList = readBooks();
+		if(!bookList.remove(book))
+			throw new EntryNotFoundException("The requested book does not exists: " + book);
 		
 	}
 
 	public void setBookRented(Book book, boolean rented) throws EntryNotFoundException {
-		// TODO Auto-generated method stub
-		
+	
 	}
 	
 	private String marshalToRecord(Book book) {
