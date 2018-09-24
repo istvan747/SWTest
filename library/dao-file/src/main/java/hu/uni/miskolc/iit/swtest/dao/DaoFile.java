@@ -38,7 +38,7 @@ public class DaoFile implements BookDAO{
 		}
 		BufferedWriter bf = null;
 		try{
-			bf = new BufferedWriter(new FileWriter(database));
+			bf = new BufferedWriter(new FileWriter(database, true));
 			String record = getNextID() + FIELD_SEPARATOR + marshalToRecord(book);
 			bf.write(record);
 			bf.newLine();
@@ -102,7 +102,7 @@ public class DaoFile implements BookDAO{
 	
 	private String marshalToRecord(Book book) {
 		return book.getTitle() + FIELD_SEPARATOR + book.getAuthor() + FIELD_SEPARATOR +
-				book.getGenre() + FIELD_SEPARATOR + book.getReleased().getTime();
+				book.getGenre() + FIELD_SEPARATOR + book.getReleased().getTime() + FIELD_SEPARATOR + book.isRented();
 	}
 	
 	private Book recordToBook(String record) {
