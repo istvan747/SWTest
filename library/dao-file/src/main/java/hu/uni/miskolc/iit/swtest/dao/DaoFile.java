@@ -103,7 +103,9 @@ public class DaoFile implements BookDAO{
 	}
 
 	public void setBookRented(Book book, boolean rented) throws EntryNotFoundException {
-	
+		Book rentedBook = new Book(book);
+		rentedBook.setRented(rented);
+		updeateBook(book, rentedBook);
 	}
 	
 	private String marshalToRecord(Book book) {
