@@ -8,14 +8,14 @@ public class Book {
 	private String title;
 	private String author;
 	private Genre genre;
-	private Date released;
+	private int releasedYear;
 	private boolean rented;
 	
-	public Book(String title, String author, Genre genre, Date released, boolean rented) {
+	public Book(String title, String author, Genre genre, int releasedYear, boolean rented) {
 		this.title = title;
 		this.author = author;
 		this.genre = genre;
-		this.released = released;
+		this.releasedYear = releasedYear;
 		this.rented = rented;
 	}
 	
@@ -24,7 +24,7 @@ public class Book {
 		this.title = book.title;
 		this.author = book.author;
 		this.genre = book.genre;
-		this.released = new Date(book.released.getTime());
+		this.releasedYear = book.releasedYear;
 		this.rented = book.rented;
 	}
 	
@@ -64,12 +64,12 @@ public class Book {
 		this.genre = genre;
 	}
 
-	public Date getReleased() {
-		return released;
+	public int getReleasedYear() {
+		return releasedYear;
 	}
 
-	public void setReleased(Date released) {
-		this.released = released;
+	public void setReleasedYear(int releasedYear) {
+		this.releasedYear = releasedYear;
 	}
 
 	public boolean isRented() {
@@ -78,14 +78,11 @@ public class Book {
 
 	public void setRented(boolean rented) {
 		this.rented = rented;
-	}
-	
-	
+	}	
 
 	@Override
 	public String toString() {
-		SimpleDateFormat format = new SimpleDateFormat("yyyy");
-		return "Book [title=" + title + ", author=" + author + ", genre=" + genre + ", released=" + format.format(released) + "]";
+		return "Book [title=" + title + ", author=" + author + ", genre=" + genre + ", released=" + releasedYear + "]";
 	}
 
 	@Override
@@ -95,7 +92,8 @@ public class Book {
 		result = prime * result + ((author == null) ? 0 : author.hashCode());
 		result = prime * result + ((genre == null) ? 0 : genre.hashCode());
 		result = prime * result + id;
-		result = prime * result + ((released == null) ? 0 : released.hashCode());
+		result = prime * result + releasedYear;
+		result = prime * result + (rented ? 1231 : 1237);
 		result = prime * result + ((title == null) ? 0 : title.hashCode());
 		return result;
 	}
@@ -118,10 +116,9 @@ public class Book {
 			return false;
 		if (id != other.id)
 			return false;
-		if (released == null) {
-			if (other.released != null)
-				return false;
-		} else if (!released.equals(other.released))
+		if (releasedYear != other.releasedYear)
+			return false;
+		if (rented != other.rented)
 			return false;
 		if (title == null) {
 			if (other.title != null)
@@ -129,8 +126,7 @@ public class Book {
 		} else if (!title.equals(other.title))
 			return false;
 		return true;
-	}
-	
+	}	
 	
 	
 }
