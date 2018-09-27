@@ -4,5 +4,6 @@ public enum Genre {
 	SCIFI,
 	FANTASY,
 	ADVENTURE,
-	HOBBY
+	HOBBY,
+	SCHOOLBOOK,
 }
