@@ -115,12 +115,16 @@ public class DaoFile implements BookDAO{
 			book.setTitle(strt.nextElement() + "");
 			book.setAuthor(strt.nextElement() + "");
 			String genre = (strt.nextElement() + "").toUpperCase();
-			switch(genre) {
-			case "SCIFI": book.setGenre(Genre.SCIFI); break;
-			case "FANTASY": book.setGenre(Genre.FANTASY); break;
-			case "ADVENTURE": book.setGenre(Genre.ADVENTURE); break;
-			case "HOBBY": book.setGenre(Genre.HOBBY); break;
-			case "SCHOOLBOOK": book.setGenre(Genre.SCHOOLBOOK); break;
+			if(genre.equals("SCIFI")) {
+				book.setGenre(Genre.SCIFI);
+			}else if(genre.equals("FANTASY")) {
+				book.setGenre(Genre.FANTASY);
+			}else if(genre.equals("ADVENTURE")) {
+				book.setGenre(Genre.ADVENTURE);
+			}else if(genre.equals("HOBBY")) {
+				book.setGenre(Genre.HOBBY);
+			}else if(genre.equals("SCHOOLBOOK")) {
+				book.setGenre(Genre.SCHOOLBOOK);
 			}
 			book.setReleasedYear(Integer.valueOf(strt.nextElement() + ""));
 			book.setRented(Boolean.valueOf(strt.nextElement() + ""));
