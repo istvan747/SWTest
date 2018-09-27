@@ -25,11 +25,6 @@ public class DaoFile implements BookDAO{
 	private File database;
 	public static final String FIELD_SEPARATOR = ";";
 	
-	public DaoFile(String databasePath) {
-		super();
-		this.database = new File(databasePath);
-	}
-	
 	public DaoFile(File database) {
 		this.database = database;
 	}
@@ -54,7 +49,6 @@ public class DaoFile implements BookDAO{
 			try {
 				bf.close();
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
@@ -73,16 +67,13 @@ public class DaoFile implements BookDAO{
 					bookList.add(book);
 			}
 		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} finally{
 			try {
 				bf.close();
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
@@ -130,6 +121,7 @@ public class DaoFile implements BookDAO{
 			case "FANTASY": book.setGenre(Genre.FANTASY); break;
 			case "ADVENTURE": book.setGenre(Genre.ADVENTURE); break;
 			case "HOBBY": book.setGenre(Genre.HOBBY); break;
+			case "SCHOOLBOOK": book.setGenre(Genre.SCHOOLBOOK); break;
 			}
 			book.setReleasedYear(Integer.valueOf(strt.nextElement() + ""));
 			book.setRented(Boolean.valueOf(strt.nextElement() + ""));
@@ -157,10 +149,8 @@ public class DaoFile implements BookDAO{
 			}
 			nextID = Collections.max(ids) + 1;
 		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}catch(NoSuchElementException e){
 			nextID = 0;
@@ -168,7 +158,6 @@ public class DaoFile implements BookDAO{
 			try {
 				bf.close();
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
@@ -176,12 +165,12 @@ public class DaoFile implements BookDAO{
 	}
 	
 	private void overrideDatabase(Collection<Book> bookList) {
-		BufferedWriter bfw;
+		BufferedWriter bfw = null;
 		try {
 			bfw = new BufferedWriter(new FileWriter(database, false));
 			Iterator<Book> bookIt = bookList.iterator();
 			while(bookIt.hasNext()) {
-				Book book =bookIt.next();
+				Book book = bookIt.next();
 				bfw.write( book.getId() + FIELD_SEPARATOR + marshalToRecord(book) );
 				bfw.newLine();
 			}
@@ -189,6 +178,12 @@ public class DaoFile implements BookDAO{
 			e.printStackTrace();
 		}catch(IOException e) {
 			e.printStackTrace();
+		}finally {
+			try {
+				bfw.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 		}
 	}	
 
