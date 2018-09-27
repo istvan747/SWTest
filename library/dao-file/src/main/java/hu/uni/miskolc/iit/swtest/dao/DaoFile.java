@@ -27,7 +27,11 @@ public class DaoFile implements BookDAO{
 	
 	public DaoFile(String databasePath) {
 		super();
-		database = new File(databasePath);
+		this.database = new File(databasePath);
+	}
+	
+	public DaoFile(File database) {
+		this.database = database;
 	}
 	
 	public void createBook(Book book) throws DuplicatedBookEntryException {
