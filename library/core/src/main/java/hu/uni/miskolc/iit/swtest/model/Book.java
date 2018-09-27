@@ -1,5 +1,6 @@
 package hu.uni.miskolc.iit.swtest.model;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class Book {
@@ -83,7 +84,8 @@ public class Book {
 
 	@Override
 	public String toString() {
-		return "Book [title=" + title + ", author=" + author + ", genre=" + genre + ", released=" + released + "]";
+		SimpleDateFormat format = new SimpleDateFormat("yyyy");
+		return "Book [title=" + title + ", author=" + author + ", genre=" + genre + ", released=" + format.format(released) + "]";
 	}
 
 	@Override
