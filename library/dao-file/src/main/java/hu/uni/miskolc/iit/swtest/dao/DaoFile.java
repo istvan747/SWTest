@@ -114,7 +114,7 @@ public class DaoFile implements BookDAO{
 	
 	private String marshalToRecord(Book book) {
 		return book.getTitle() + FIELD_SEPARATOR + book.getAuthor() + FIELD_SEPARATOR +
-				book.getGenre() + FIELD_SEPARATOR + book.getReleased().getTime() + FIELD_SEPARATOR + book.isRented();
+				book.getGenre() + FIELD_SEPARATOR + book.getReleasedYear() + FIELD_SEPARATOR + book.isRented();
 	}
 	
 	private Book recordToBook(String record) {
@@ -131,7 +131,8 @@ public class DaoFile implements BookDAO{
 			case "ADVENTURE": book.setGenre(Genre.ADVENTURE); break;
 			case "HOBBY": book.setGenre(Genre.HOBBY); break;
 			}
-			book.setReleased(new Date( Long.valueOf(strt.nextElement() + "") ) );			
+			book.setReleasedYear(Integer.valueOf(strt.nextElement() + ""));
+			book.setRented(Boolean.valueOf(strt.nextElement() + ""));
 		}catch(Exception e) {
 			book = null;
 		}
