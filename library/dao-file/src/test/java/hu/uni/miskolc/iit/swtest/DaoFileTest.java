@@ -63,7 +63,7 @@ public class DaoFileTest {
 	
 	@Test
 	public void testRead() {
-		List<Book> expected = new ArrayList<>();
+		List<Book> expected = new ArrayList<Book>();
 		Book book1 = new Book("Számítógép hálózatok", "Andrew S. Tanenbaum", Genre.SCHOOLBOOK,2013,false);
 		book1.setId(0);
 		Book book2 = new Book("Operációs rendszerek","Andrew S. Tanenbaum",Genre.SCHOOLBOOK,2007,false);
