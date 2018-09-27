@@ -32,7 +32,7 @@ public class DaoFileTest {
 	
 	@BeforeClass
 	public static void beforeClass() {
-		DEFAULT_DB_STATE = new File("src\\resources\\bookDB.csv");
+		DEFAULT_DB_STATE = new File("src/resources/bookDB.csv");
 	}
 	
 	@Before
