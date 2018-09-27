@@ -82,20 +82,7 @@ public class Book {
 
 	@Override
 	public String toString() {
-		return "Book [title=" + title + ", author=" + author + ", genre=" + genre + ", released=" + releasedYear + ", rented= " + rented + "]";
-	}
-
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((author == null) ? 0 : author.hashCode());
-		result = prime * result + ((genre == null) ? 0 : genre.hashCode());
-		result = prime * result + id;
-		result = prime * result + releasedYear;
-		result = prime * result + (rented ? 1231 : 1237);
-		result = prime * result + ((title == null) ? 0 : title.hashCode());
-		return result;
+		return "Book [id=" + id + ",title=" + title + ", author=" + author + ", genre=" + genre + ", released=" + releasedYear + ", rented= " + rented + "]";
 	}
 
 	@Override
@@ -113,8 +100,6 @@ public class Book {
 		} else if (!author.equals(other.author))
 			return false;
 		if (genre != other.genre)
-			return false;
-		if (id != other.id)
 			return false;
 		if (releasedYear != other.releasedYear)
 			return false;
